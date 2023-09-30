@@ -17,11 +17,48 @@ router
   //   {...},
   //   {...}, etc
   // ]
+  .get(async (req, res) => {
+    const [inventoryList] = await db.query(`SELECT * FROM inventory`)
+    // console.log(inventoryList) 
+    res.json(inventoryList) 
+  })
 
   // TODO: Create a POST route that inserts inventory items
   // This route will accept price, quantity, name, image, and description as JSON
   // in the request body.
   // It should return a 204 status code
+  .post(async (req, res) => {
+    try{
+      const {
+        price, 
+        quantity, 
+        name, 
+        image,
+        description
+      } = req.body
+    if (!(
+        price && 
+        quantity && 
+        name && 
+        image &&
+        description
+    )) return res
+      .status(400)
+      .send('must include price, price, quantity, name, image, and description')
+
+    await db.query(`
+      INSERT INTO inventory (price, quantity, name, image, description)
+      VALUES (?, ?, ?, ?, ?) 
+      `, [price, quantity, name, image, description]) 
+
+    res.status(204).send('User created')
+
+    } 
+    catch(err){
+        res.status(500).send('Error creating user ' + err.message)
+    }
+    console.log(res)
+  })
 
 router
   .route('/inventory/:id')
@@ -37,6 +74,8 @@ router
   //   "price": 599.99,
   //   "quantity": 3
   // }
+
+
 
   // TODO: Create a PUT route that updates the inventory table based on the id
   // in the route parameter.
