@@ -75,10 +75,11 @@ router
   // }
 
   .get(async (req, res) => {
-    const [{inventoryItem}] = await db.query(`SELECT * FROM inventory WHERE id=?`,
+    const [{inventoryItem}] = await db.query(`
+      SELECT * FROM inventory WHERE id= ?`,
     [req.params.id])
     if(!inventoryItem) return res.status(404).send('Item not found')
-      // console.log(inventoryList) 
+      // console.log(inventoryItem) 
     res.json(inventoryItem) 
   })
 
