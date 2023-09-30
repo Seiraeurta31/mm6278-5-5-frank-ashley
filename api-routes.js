@@ -75,14 +75,13 @@ router
   // }
 
   .get(async (req, res) => {
-    const [{inventoryItem}] = await db.query(`
-      SELECT * FROM inventory WHERE id= ?`,
-    [req.params.id])
+    const [[inventoryItem]] = await db.query(`
+      SELECT * FROM inventory WHERE id= ?`, [req.params.id])
+      // console.log(inventoryItem)
     if(!inventoryItem) return res.status(404).send('Item not found')
       // console.log(inventoryItem) 
     res.json(inventoryItem) 
-  })
-
+  }) 
 
   // TODO: Create a PUT route that updates the inventory table based on the id
   // in the route parameter.
