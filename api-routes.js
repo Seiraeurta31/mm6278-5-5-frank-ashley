@@ -19,7 +19,6 @@ router
   // ]
   .get(async (req, res) => {
     const [inventoryList] = await db.query(`SELECT * FROM inventory`)
-    // console.log(inventoryList) 
     res.json(inventoryList) 
   })
 
@@ -56,7 +55,6 @@ router
     catch(err){
         res.status(500).send('Error creating user ' + err.message)
     }
-    // console.log(res.status)
   })
 
 router
@@ -77,9 +75,7 @@ router
   .get(async (req, res) => {
     const [[inventoryItem]] = await db.query(`
       SELECT * FROM inventory WHERE id= ?`, [req.params.id])
-      // console.log(inventoryItem)
     if(!inventoryItem) return res.status(404).send('Item not found')
-      // console.log(inventoryItem) 
     res.json(inventoryItem) 
   }) 
 
@@ -121,7 +117,6 @@ router
     catch(err){
         res.status(500).send('Error updating user ' + err.message)
     }
-    // console.log(res.status)
   })
 
 
